@@ -10,14 +10,4 @@ module.exports = {
       }
     },
   },
-  css: {
-    loaderOptions: {
-      less: {
-        modifyVars: {
-          'primary-color': '#060810',
-        },
-        javascriptEnabled: true,
-      },
-    },
-  },
 }
