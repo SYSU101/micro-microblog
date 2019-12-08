@@ -52,5 +52,6 @@ func login(c *gin.Context) {
 func logout(c *gin.Context) {
 	sessionID := c.MustGet("SessionID").(string)
 	database.DeleteSessionByID(sessionID)
-	c.JSON(http.StatusAccepted, gin.H{})
+	c.SetCookie("SESSIONID", "", -1, "/", "", false, false)
+	c.JSON(http.StatusNoContent, gin.H{})
 }
