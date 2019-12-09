@@ -1,5 +1,7 @@
 package database
-
+import (
+	"micro-microblog/typings"
+)
 // GetUserIDBySessionID 根据给定的 sessionID 查找对应的用户 ID，若该用户不存在，则返回 errors.New("用户不存在")
 func GetUserIDBySessionID(sessionID string) (int, error)
 
@@ -12,7 +14,7 @@ func DeleteSessionByID(sessionID string) error
 func UserLogin(username, password string) (sessionID string, err error)
 
 //得到所有的用户
-func GetAllUsers() []User
+func GetAllUsers() [](typings.User)
 
 //通过用户id得到user信息
-func GetUserByUserID(userId) (User ,error)
+func GetUserByUserID(userId int) (user typings.User ,err error)

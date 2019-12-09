@@ -17,9 +17,8 @@ func getUsers(c *gin.Context){
 	
 	users:=database.GetAllUsers()
 	c.JSON(200, gin.H{
-		"user": users
+		"user": users,
 	})
-	
 
 }
 func getUserById(c *gin.Context){
@@ -32,7 +31,7 @@ func getUserById(c *gin.Context){
 		})
 	} else {
 		c.JSON(200, gin.H{
-			"user": user
+			"user": user,
 		})
 	}
 
