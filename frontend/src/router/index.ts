@@ -17,6 +17,20 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('../views/BasicLayout.vue'),
+    children: [
+      {
+        path: '/me',
+        component: () => import('../views/UserProfile.vue'),
+      },
+      {
+        path: '/other',
+        component: () => import('../views/UserList.vue'),
+      },
+      {
+        path: '*',
+        redirect: '/me',
+      },
+    ],
     async beforeEnter(from, to, next) {
       try {
         const { userId } = await SILENT_HTTP_CLIENT.get<{ userId: number }>('/sessions');

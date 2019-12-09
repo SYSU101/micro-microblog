@@ -32,7 +32,7 @@ module.exports = {
     res.status(204).json({});
   },
   'GET /api/users': (req, res) => {
-    res.status(200).json({ users });
+    res.status(200).json({ user: users });
   },
   'POST /api/users': (req, res) => {
     const newUser = req.body;
@@ -45,5 +45,20 @@ module.exports = {
     userIdCounter++;
     users.push({ ...newUser, id: userIdCounter });
     res.status(204).json({})
+  },
+  'GET /api/user/:id': (req, res) => {
+    const { id } = req.params;
+    let foundUser = null;
+    for (const user of users) {
+      if (user.id == id) {
+        foundUser = user;
+        break;
+      }
+    }
+    if (foundUser) {
+      res.status(200).json(foundUser);
+    } else {
+      res.status(404).json({ errMsg: '找不到对应的用户' });
+    }
   },
 };
