@@ -13,15 +13,7 @@ func routeUser() {
 	router.GET("/api/users", getUsers)
 }
 func getUsers(c *gin.Context){
-	user := &typings.User{
-		id: 0,
-		username: "",
-		name: "",
-		studentId: 0, 
-		motto: "",
-		password: "",
-		brithday: "",
-	}
+	
 	
 	users:=database.GetAllUsers()
 	c.JSON(200, gin.H{
@@ -31,15 +23,7 @@ func getUsers(c *gin.Context){
 
 }
 func getUserById(c *gin.Context){
-	user := &typings.User{
-		id: 0,
-		username: "",
-		name: 0,
-		studentId: "", 
-		motto: "",
-		password: "",
-		brithday: "",
-	}
+	
 	
 	userId:=c.Param("id")
 	if user, err := database.GetUserByUserID(userId); err != nil {
