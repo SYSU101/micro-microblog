@@ -47,7 +47,7 @@ func post(c *gin.Context) {
 		})
 		return
 	}
-	if ID, err := database.GetUserIdByUserName(userInfo); err != nil {
+	if userID, err := database.GetUserIdByUserName(userInfo); err != nil {
 		//401未授权
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"errMsg": err.Error(),
