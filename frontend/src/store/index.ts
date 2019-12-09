@@ -34,7 +34,7 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchUserProfile({ commit }, userId) {
-      const userProfile = await HTTP_CLIENT.get<IUserProfile>(`/user/${userId}`);
+      const userProfile = (await HTTP_CLIENT.get<{ user: IUserProfile }>(`/user/${userId}`)).user;
       commit('setUserProfile', userProfile);
     },
   },

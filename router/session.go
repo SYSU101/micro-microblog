@@ -10,9 +10,9 @@ import (
 )
 
 func routeSession() {
-	router.GET("/api/seesion", getUserID)
-	router.PUT("/api/session", login)
-	router.DELETE("/api/session", logout)
+	router.GET("/api/sessions", getUserID)
+	router.PUT("/api/sessions", login)
+	router.DELETE("/api/sessions", logout)
 }
 
 func getUserID(c *gin.Context) {
@@ -44,7 +44,7 @@ func login(c *gin.Context) {
 			"errMsg": err.Error(),
 		})
 	} else {
-		c.SetCookie("SESSIONID", sessionID, -1, "/", "", false, false)
+		c.SetCookie("SESSIONID", sessionID, 86500, "/", "", false, false)
 		c.JSON(http.StatusAccepted, gin.H{})
 	}
 }

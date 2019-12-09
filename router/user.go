@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"strconv"
 
 	"micro-microblog/database"
 	"micro-microblog/typings"
@@ -10,7 +11,7 @@ import (
 )
 
 func routeUser() {
-	router.POST("/api/user", createUserId)
+	router.POST("/api/users", createUserId)
 	router.GET("/api/user/:id", getUserById)
 	router.GET("/api/users", getUsers)
 	router.PUT("/api/user/:id", modifyInfo)
@@ -33,17 +34,17 @@ func routeUser() {
             errMsg*/
 func createUserId(c *gin.Context) {
 	registerBody := &typings.Registerbody{
-		username: "",
-		name: "",
-		studentId: "",
-		motto: "",
-		password: "",
-		birthday: "",
+		Username:  "",
+		Name:      "",
+		StudentId: "",
+		Motto:     "",
+		Password:  "",
+		Birthday:  "",
 	}
 	if err := c.ShouldBindJSON(registerBody); err != nil {
 		//400
 		c.JSON(http.StatusBadRequest, gin.H{
-			"errMsg": "错误请求",
+			"errMsg": err.Error(),
 		})
 		return
 	}
@@ -60,48 +61,44 @@ func createUserId(c *gin.Context) {
 	}
 }
 
+func getUsers(c *gin.Context) {
 
-func getUsers(c *gin.Context){
-	
-	
-	users:=database.GetAllUsers()
+	users := database.GetAllUsers()
 	c.JSON(200, gin.H{
 		"user": users,
 	})
 
 }
-func modifyInfo(c *gin.Context){
+func modifyInfo(c *gin.Context) {
 	sessionID := c.MustGet("SessionID").(string)
-	userId:=c.Param("id")
-	userInfo:=&typings.User_tem{
-		Name: "",
+	userId, _ := strconv.Atoi(c.Param("id"))
+	userInfo := &typings.User_tem{
+		Name:      "",
 		StudentId: 0,
-		Motto :"",
-		Birthday:"",
+		Motto:     "",
+		Birthday:  "",
 	}
 	if err := c.ShouldBindJSON(userInfo); err != nil {
 		c.JSON(404, gin.H{
 			"errMsg": "找不到",
 		})
 	}
-	if (string)userId != sessionID{
+	if string(userId) != sessionID {
 		c.JSON(403, gin.H{
 			"errMsg": "拒绝",
 		})
-	}
-	else{
-		if(err:=database.modifyInfo(userId,userInfo); err !=nil){
+	} else {
+		if err := database.ModifyInfo(userId, userInfo); err != nil {
 			c.JSON(500, gin.H{
-			"errMsg": "数据库拒绝",
-		})
+				"errMsg": "数据库拒绝",
+			})
 		}
 		c.JSON(204, gin.H{})
 	}
 }
-func getUserById(c *gin.Context){
-	
-	
-	userId:=c.Param("id")
+
+func getUserById(c *gin.Context) {
+	userId, _ := strconv.Atoi(c.Param("id"))
 	if user, err := database.GetUserByUserID(userId); err != nil {
 		c.JSON(404, gin.H{
 			"errMsg": err.Error(),
@@ -113,5 +110,3 @@ func getUserById(c *gin.Context){
 	}
 
 }
-
-

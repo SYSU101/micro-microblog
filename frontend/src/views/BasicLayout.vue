@@ -15,7 +15,7 @@
               <span>Other People</span>
             </router-link>
           </a-menu-item>
-          <a-menu-item key="logout" @click.native="logout" >
+          <a-menu-item key="logout" @click.native="logout($event)" >
             <a-icon type="logout"/>
             <span>Logout</span>
           </a-menu-item>
@@ -44,15 +44,17 @@ export default class BasicLayout extends Vue {
     this.selectedKeys = [ this.$route.path.split('/').pop() || 'me' ];
   }
 
-  public async logout() {
+  public async logout(event: MouseEvent | { domEvent: MouseEvent }) {
     try {
       await SILENT_HTTP_CLIENT.delete<{}>('/sessions');
     } catch (error) {
       // Do nothing
     }
-    this.$store.commit('clearUserProfile');
-    this.$notification.success({ message: '登出成功', description: '您现在可以重新登陆' });
-    this.$router.push('/login');
+    if (event.hasOwnProperty('domEvent')) {
+      this.$store.commit('clearUserProfile');
+      this.$notification.success({ message: '登出成功', description: '您现在可以重新登陆' });
+      this.$router.push('/login');
+    }
   }
 }
 

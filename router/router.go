@@ -27,9 +27,11 @@ func Route(address string) {
 	router.Use(middlewares.GetSessionID())
 
 	// 各种路由写在这里，要确保 routerStatic 是最后执行的
+	routeUser()
 	routeSession()
 	routeStatic()
 
 	// 监听
+	log.Println("listening on localhost:8080")
 	router.Run(address)
 }
