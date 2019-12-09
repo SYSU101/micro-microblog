@@ -11,5 +11,6 @@ func DeleteSessionByID(sessionID string) error
 // 若该用户不存在或密码不正确，则返回 errors.New("用户名或密码错误")
 func UserLogin(username, password string) (sessionID string, err error)
 
-// GetUserIdByUserName 根据给定的 User查找对应的UserID，若该用户不存在，则返回 errors.New("用户不存在")
-func GetUserIdByUser(&typings.User)(userId string, err error)
+// CreateUserIdByRegister 根据给定的RegisterBody创建新的一个UserID
+//若该用户已存在，则返回 errors.New("用户冲突")
+func CreateUserIdByRegister(&typings.Registerbody)(userId string, err error)

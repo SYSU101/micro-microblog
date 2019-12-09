@@ -31,8 +31,7 @@ func routeUser() {
         409:
             errMsg*/
 func post(c *gin.Context) {
-	userInfo := &typings.User{
-		id: "",
+	registerBody := &typings.Registerbody{
 		username: "",
 		name: "",
 		studentId: "",
@@ -40,21 +39,21 @@ func post(c *gin.Context) {
 		password: "",
 		birthday: "",
 	}
-	if err := c.ShouldBindJSON(userInfo); err != nil {
+	if err := c.ShouldBindJSON(registerBody); err != nil {
 		//400
 		c.JSON(http.StatusBadRequest, gin.H{
 			"errMsg": "错误请求",
 		})
 		return
 	}
-	if userID, err := database.GetUserIdByUserName(userInfo); err != nil {
+	if userID, err := database.CreateUserIdByRegister(registerBody); err != nil {
 		//401未授权
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"errMsg": err.Error(),
 		})
 	} else {
-		//202
-		c.JSON(http.StatusAccepted, gin.H{
+		//201
+		c.JSON(http.StatusCreated, gin.H{
 			"userid": userID,
 		})
 	}
