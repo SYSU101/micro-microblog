@@ -18,3 +18,5 @@ func GetAllUsers() [](typings.User)
 
 //通过用户id得到user信息
 func GetUserByUserID(userId int) (user typings.User ,err error)
+//通过用户id修改用户信息返回报错信息
+func modifyInfo(userId int,userInfo typings.User_tem) (error)
