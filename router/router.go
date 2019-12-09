@@ -27,6 +27,7 @@ func Route(address string) {
 	router.Use(middlewares.GetSessionID())
 
 	// 各种路由写在这里，要确保 routerStatic 是最后执行的
+	routeSession()
 	routeStatic()
 
 	// 监听
