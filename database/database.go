@@ -13,4 +13,4 @@ func UserLogin(username, password string) (sessionID string, err error)
 
 // CreateUserIdByRegister 根据给定的RegisterBody创建新的一个UserID
 //若该用户已存在，则返回 errors.New("用户冲突")
-func CreateUserIdByRegister(&typings.Registerbody)(userId string, err error)
+func CreateUserIdByRegister(userInfo *typings.Registerbody)(userId string, err error)

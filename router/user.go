@@ -10,14 +10,12 @@ import (
 )
 
 func routeUser() {
-	router.POST("/api/user", post)
+	router.POST("/api/user", createUserId)
 }
 
 /*GET /api/user:
     response:
 		200: user*/
-		
-
 /*POST /api/user:
     body:
         username: string
@@ -30,7 +28,7 @@ func routeUser() {
             userId
         409:
             errMsg*/
-func post(c *gin.Context) {
+func createUserId(c *gin.Context) {
 	registerBody := &typings.Registerbody{
 		username: "",
 		name: "",
@@ -47,8 +45,8 @@ func post(c *gin.Context) {
 		return
 	}
 	if userID, err := database.CreateUserIdByRegister(registerBody); err != nil {
-		//401未授权
-		c.JSON(http.StatusUnauthorized, gin.H{
+		//409请求资源和当前状态存在冲突
+		c.JSON(http.StatusConflict, gin.H{
 			"errMsg": err.Error(),
 		})
 	} else {
