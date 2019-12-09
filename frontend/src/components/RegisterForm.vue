@@ -56,12 +56,11 @@
       />
     </a-form-item>
     <a-form-item :label-col="labelColLayout" :wrapper-col="inputColLayout" label="Student Id">
-      <a-input-number
+      <a-input
         v-decorator="[
           'studentId',
           { rules: [{ required: true, message: 'Please input your student ID!' }] }
         ]"
-        style="width: 100%"
       />
     </a-form-item>
     <a-form-item :label-col="labelColLayout" :wrapper-col="inputColLayout" label="Birthday">
@@ -131,7 +130,7 @@ export default class RegisterForm extends Vue {
             username: values['username'],
             password: values['password'],
             name: values['name'],
-            studentId: values['studentId'].toString(),
+            studentId: values['studentId'],
             birthday: new Date(values['birthday'].format('YYYY-MM-DD')).toISOString(),
             motto: values['motto'] || '',
           };

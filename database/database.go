@@ -162,7 +162,7 @@ func GetAllUsers() [](typings.User) {
 				Motto:     "",
 				Birthday:  "",
 				Name:      "",
-				StudentId: 0,
+				StudentId: "",
 			})
 			return_user_list[index].Id, _ = strconv.Atoi(string(v))
 			b_temp := tx.Bucket([]byte("Username"))
@@ -170,7 +170,7 @@ func GetAllUsers() [](typings.User) {
 			b_temp = tx.Bucket([]byte("Name"))
 			return_user_list[index].Name = string(b_temp.Get(v))
 			b_temp = tx.Bucket([]byte("StudentId"))
-			return_user_list[index].StudentId, _ = strconv.Atoi(string(b_temp.Get(v)))
+			return_user_list[index].StudentId = string(b_temp.Get(v))
 			b_temp = tx.Bucket([]byte("Motto"))
 			return_user_list[index].Motto = string(b_temp.Get(v))
 			b_temp = tx.Bucket([]byte("Password"))
@@ -187,21 +187,20 @@ func GetAllUsers() [](typings.User) {
 func GetUserByUserID(userId int) (typings.User, error) {
 	user := typings.User{}
 	err := db.View(func(tx *bolt.Tx) error {
-		var err error
 		Id := []byte(strconv.Itoa(userId))
 		b_temp := tx.Bucket([]byte("Username"))
 		user.Username = string(b_temp.Get(Id))
 		b_temp = tx.Bucket([]byte("Name"))
 		user.Name = string(b_temp.Get(Id))
 		b_temp = tx.Bucket([]byte("StudentId"))
-		user.StudentId, err = strconv.Atoi(string(b_temp.Get(Id)))
+		user.StudentId = string(b_temp.Get(Id))
 		b_temp = tx.Bucket([]byte("Motto"))
 		user.Motto = string(b_temp.Get(Id))
 		b_temp = tx.Bucket([]byte("Password"))
 		user.Password = string(b_temp.Get(Id))
 		b_temp = tx.Bucket([]byte("Birthday"))
 		user.Birthday = string(b_temp.Get(Id))
-		return err
+		return nil
 	})
 	return user, err
 }
@@ -209,7 +208,7 @@ func GetUserByUserID(userId int) (typings.User, error) {
 // ModifyInfo 通过用户id修改用户信息返回报错信息
 func ModifyInfo(userId int, userInfo *typings.User_tem) error {
 	db.Update(func(tx *bolt.Tx) error {
-		Id := []byte(string(userId))
+		Id := []byte(strconv.Itoa(userId))
 		b_temp := tx.Bucket([]byte("Name"))
 		b_temp.Put(Id, []byte(userInfo.Name))
 		b_temp = tx.Bucket([]byte("StudentId"))

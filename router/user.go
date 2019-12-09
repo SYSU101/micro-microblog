@@ -74,23 +74,24 @@ func modifyInfo(c *gin.Context) {
 	userId, _ := strconv.Atoi(c.Param("id"))
 	userInfo := &typings.User_tem{
 		Name:      "",
-		StudentId: 0,
+		StudentId: "",
 		Motto:     "",
 		Birthday:  "",
 	}
 	if err := c.ShouldBindJSON(userInfo); err != nil {
-		c.JSON(404, gin.H{
-			"errMsg": "找不到",
+		c.JSON(400, gin.H{
+			"errMsg": err.Error(),
 		})
 	}
-	if string(userId) != sessionID {
+	authId, _ := database.GetUserIDBySessionID(sessionID)
+	if userId != authId {
 		c.JSON(403, gin.H{
 			"errMsg": "拒绝",
 		})
 	} else {
 		if err := database.ModifyInfo(userId, userInfo); err != nil {
 			c.JSON(500, gin.H{
-				"errMsg": "数据库拒绝",
+				"errMsg": err.Error(),
 			})
 		}
 		c.JSON(204, gin.H{})

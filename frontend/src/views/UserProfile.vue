@@ -70,7 +70,7 @@ export default class UserProfile extends Vue {
       });
       await HTTP_CLIENT.put<{}>(`/user/${id}`, newProfile);
       this.$notification.success({ message: '信息更新成功', description: '' });
-      await this.$store.dispatch('fetchUserProfile');
+      await this.$store.dispatch('fetchUserProfile', id);
       this.editing = false;
     } catch (error) {
       // Do nothing
