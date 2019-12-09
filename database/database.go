@@ -1,7 +1,33 @@
 package database
 
+import (
+	"fmt"
+	"log"
+	"strconv"
+	"github.com/boltdb/bolt"
+	"errors"
+)
+
+var db *DB
+
+func init() {
+	StartDB("test.db")
+}
+
+// 通过数据库文件名加载数据库
+func StartDB(db_file_name string) error {
+	var err
+	db, err = bolt.Open(db_file_name, 0600, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return err
+}
+
 // GetUserIDBySessionID 根据给定的 sessionID 查找对应的用户 ID，若该用户不存在，则返回 errors.New("用户不存在")
-func GetUserIDBySessionID(sessionID string) (int, error)
+func GetUserIDBySessionID(sessionID string) (int, error) {
+
+}
 
 // DeleteSessionByID 根据给定的 sessionID 删除对应的 session 记录
 func DeleteSessionByID(sessionID string) error
