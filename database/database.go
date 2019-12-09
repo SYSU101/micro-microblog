@@ -10,3 +10,6 @@ func DeleteSessionByID(sessionID string) error
 // 若用户名和密码均正确，则使用 uuid.NewV4() 创建一个新的 session 记录，并返回对应的 sessionID
 // 若该用户不存在或密码不正确，则返回 errors.New("用户名或密码错误")
 func UserLogin(username, password string) (sessionID string, err error)
+
+// GetUserIdByUserName 根据给定的 User查找对应的UserID，若该用户不存在，则返回 errors.New("用户不存在")
+func GetUserIdByUser(&typings.User)(userId string, err error)
