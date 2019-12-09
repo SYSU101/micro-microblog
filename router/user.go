@@ -42,7 +42,11 @@ func modifyInfo(c *gin.Context){
 		})
 	}
 	else{
-		database.modifyInfo(userId,userInfo)
+		if(err:=database.modifyInfo(userId,userInfo); err !=nil){
+			c.JSON(500, gin.H{
+			"errMsg": "数据库拒绝",
+		})
+		}
 		c.JSON(204, gin.H{})
 	}
 }
