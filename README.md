@@ -4,6 +4,8 @@
 
 ### 运行方式
 ```bash
+# 使用代理下载go mod 依赖，bash下运行
+GOPROXY="https://goproxy.io" go mod download
 # 构建前端
 cd frontend
 npm install --regstry=https://registry.npm.taobao.org
