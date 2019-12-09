@@ -23,6 +23,7 @@ func getUsers(c *gin.Context){
 
 }
 func modifyInfo(c *gin.Context){
+	sessionID := c.MustGet("SessionID").(string)
 	userId:=c.Param("id")
 	userInfo:=&typings.User_tem{
 		Name: "",
@@ -35,12 +36,13 @@ func modifyInfo(c *gin.Context){
 			"errMsg": "找不到",
 		})
 	}
-	if err :=database.modifyInfo(userId,userInfo){
+	if (string)userId != sessionID{
 		c.JSON(403, gin.H{
 			"errMsg": "拒绝",
 		})
 	}
 	else{
+		database.modifyInfo(userId,userInfo)
 		c.JSON(204, gin.H{})
 	}
 }
